@@ -50,6 +50,8 @@ MonoBehaviour:
   - {fileID: 2526473379289237577, guid: a5ec5baf7d3e9154a80c3acfa5a3e169, type: 3}
   - {fileID: 2526473379289237577, guid: 8ba892ccff359e24f861f4fb2b3325bb, type: 3}
   - {fileID: 2526473379289237577, guid: 797ad75f68bd3024790e78f3a03a4a46, type: 3}
-  spawnRate: 2
-  spawnAreaMin: {x: -10, y: -10}
-  spawnAreaMax: {x: 10, y: 10}
+  spawnRateStart: 3
+  spawnRateDecrease: 0.01
+  minSpawnRate: 1
+  forceTowardsPlayer: 1
+  player: {fileID: 0}
