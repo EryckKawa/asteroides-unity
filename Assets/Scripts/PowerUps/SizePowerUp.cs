@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SizePowerUp : PowerUp
 {
-    [SerializeField] private float duration;
+	[SerializeField] private float duration;
 	private PlayerShoot playerShoot;
 
 	protected override void OnTriggerEnter2D(Collider2D other)
@@ -14,7 +14,6 @@ public class SizePowerUp : PowerUp
 		{
 			playerShoot = other.GetComponent<PlayerShoot>();
 			playerShoot.ActiveIncreaseProjectile(duration);
-
 		}
 	}
 }

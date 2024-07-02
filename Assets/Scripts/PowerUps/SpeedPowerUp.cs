@@ -11,7 +11,7 @@ public class SpeedPowerUp : PowerUp
 		if (other.CompareTag("Player"))
 		{
 			playerMovement = other.GetComponent<PlayerMovement>();
-            playerMovement.ActiveSpeedBoost(duration);
+            playerMovement.ActivateSpeedBoost(duration);
 		}
 	}
 }
