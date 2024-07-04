@@ -76,38 +76,38 @@ public class ScoreManager : MonoBehaviour
 
     private void UpdateScoreUI()
     {
-        scoreText.text = "HIGHSCORE: " + score;
+        // Formata o score com quatro dígitos, preenchendo com zeros à esquerda
+        scoreText.text = "HighScore " + score.ToString("D8");
     }
 
     private void UpdateComboUI()
-{
-    comboText.text = $"Combo: {combo} (x{multiplier})";
-    
-    // Lista de cores predefinidas para múltiplos de 10
-    Color[] comboColors = new Color[]
     {
-        Color.white,
-        Color.green,
-        Color.yellow,
-        Color.magenta,
-        Color.cyan,
-        new Color(1f, 0.5f, 0f), // Laranja
-        new Color(0.5f, 0f, 1f), // Roxo
-        new Color(0f, 0.5f, 0.5f), // Teal
-        Color.gray,
-        new Color(0.5f, 0.5f, 0.5f) // Cinza
-    };
-    
-    // Seleciona a cor com base no índice do array de cores
-    int colorIndex = combo / 10;
-    Color defaultColor = comboColors[Mathf.Clamp(colorIndex, 0, comboColors.Length - 1)];
-    
-    // Muda a cor do visualizador com base no combo
-    float normalizedCombo = (float)combo / 100f;
-    Color lerpedColor = Color.Lerp(defaultColor, Color.red, normalizedCombo);
-    comboVisualizer.GetComponent<Image>().color = lerpedColor;
-}
-
+        comboText.text = $"Combo: {combo} (x{multiplier})";
+        
+        // Lista de cores predefinidas para múltiplos de 10
+        Color[] comboColors = new Color[]
+        {
+            Color.white,
+            Color.green,
+            Color.yellow,
+            Color.magenta,
+            Color.cyan,
+            new Color(1f, 0.5f, 0f), // Laranja
+            new Color(0.5f, 0f, 1f), // Roxo
+            new Color(0f, 0.5f, 0.5f), // Teal
+            Color.gray,
+            new Color(0.5f, 0.5f, 0.5f) // Cinza
+        };
+        
+        // Seleciona a cor com base no índice do array de cores
+        int colorIndex = combo / 10;
+        Color defaultColor = comboColors[Mathf.Clamp(colorIndex, 0, comboColors.Length - 1)];
+        
+        // Muda a cor do visualizador com base no combo
+        float normalizedCombo = (float)combo / 100f;
+        Color lerpedColor = Color.Lerp(defaultColor, Color.red, normalizedCombo);
+        comboVisualizer.GetComponent<Image>().color = lerpedColor;
+    }
 
     private void AnimateComboVisualizer()
     {

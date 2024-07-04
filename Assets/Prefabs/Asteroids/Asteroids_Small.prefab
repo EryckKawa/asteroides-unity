@@ -349,6 +349,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 399577971708616360}
     m_Modifications:
+    - target: {fileID: 311300276380558382, guid: c5e4d55b13bd32d4e88eb76a67e797b6, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 311300276380558382, guid: c5e4d55b13bd32d4e88eb76a67e797b6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 3512897815005314656, guid: c5e4d55b13bd32d4e88eb76a67e797b6, type: 3}
       propertyPath: m_Name
       value: ScoreText

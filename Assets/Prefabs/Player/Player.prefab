@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 2475355599360827407}
   - component: {fileID: 2802890993775876486}
   - component: {fileID: 5241801015406951657}
+  - component: {fileID: 1006414541448019344}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -148,6 +149,7 @@ MonoBehaviour:
   rotationSpeed: 80
   brakeForce: 18
   speedBoostMultiplier: 1.3
+  maxSpeed: 10
   rocketPropulsion: {fileID: 0}
 --- !u!114 &2475355599360827407
 MonoBehaviour:
@@ -195,6 +197,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   life: 0
   repulsionForce: 10
+  damageFlashDuration: 0.2
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &1006414541448019344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2215990748717962122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2df77f3a232447449bfd85e161e89dc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  numOfHearts: 0
+  hearts: []
+  fullHeart: {fileID: 0}
+  emptyHeart: {fileID: 0}
 --- !u!1 &2679946631369499474
 GameObject:
   m_ObjectHideFlags: 0
