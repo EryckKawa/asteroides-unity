@@ -14,23 +14,31 @@ public class PlayerMovement : MonoBehaviour
     private float originalThrust;
     private bool isActiveSpeedBoost = false;
 
-    private void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
         originalThrust = thrust;
+    }
+
+    private void FixedUpdate()
+    {
+        ProcessThrust();
+        ProcessBrake();
     }
 
     private void Update()
     {
-        ProcessThrust();
-        ProcessBrake();
         PointTowardsMouse();
     }
 
     private void ProcessThrust()
     {
         float currentThrust = isActiveSpeedBoost ? thrust * speedBoostMultiplier : thrust;
-        Vector2 force = transform.up * currentThrust * Time.deltaTime;
+        Vector2 force = currentThrust * Time.deltaTime * transform.up;
 
         if (Input.GetKey(KeyCode.Space))
         {
@@ -43,9 +51,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Limitar a velocidade máxima
-        if (rb.velocity.magnitude > maxSpeed)
+        if (rb.velocity.sqrMagnitude > maxSpeed * maxSpeed)
         {
-            rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+            rb.velocity = rb.velocity.normalized * maxSpeed;
         }
     }
 

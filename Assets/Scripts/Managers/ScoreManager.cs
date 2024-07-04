@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager instance;
 
-    public Text scoreText;
-    public Text comboText;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI comboText;
     public GameObject comboVisualizer;
 
     private int score;
@@ -15,6 +16,7 @@ public class ScoreManager : MonoBehaviour
     private float comboResetTime = 5f; // Tempo em segundos para resetar o combo
     private float comboTimer;
     private int multiplier = 1;
+    private Tween comboTween;
 
     private void Awake()
     {
@@ -65,25 +67,54 @@ public class ScoreManager : MonoBehaviour
         multiplier = 1;
         comboTimer = 0f;
         UpdateComboUI();
+        if (comboTween != null)
+        {
+            comboTween.Kill(); // Para a animação quando o combo é resetado
+            comboVisualizer.transform.localScale = Vector3.one; // Reseta a escala do visualizador de combo
+        }
     }
 
     private void UpdateScoreUI()
     {
-        scoreText.text = "Score: " + score;
+        scoreText.text = "HIGHSCORE: " + score;
     }
 
     private void UpdateComboUI()
+{
+    comboText.text = $"Combo: {combo} (x{multiplier})";
+    
+    // Lista de cores predefinidas para múltiplos de 10
+    Color[] comboColors = new Color[]
     {
-        comboText.text = "Combo: " + combo + " (x" + multiplier + ")";
-        // Muda a cor do visualizador com base no combo
-        comboVisualizer.GetComponent<Image>().color = Color.Lerp(Color.white, Color.red, (float)combo / 100);
-    }
+        Color.white,
+        Color.green,
+        Color.yellow,
+        Color.magenta,
+        Color.cyan,
+        new Color(1f, 0.5f, 0f), // Laranja
+        new Color(0.5f, 0f, 1f), // Roxo
+        new Color(0f, 0.5f, 0.5f), // Teal
+        Color.gray,
+        new Color(0.5f, 0.5f, 0.5f) // Cinza
+    };
+    
+    // Seleciona a cor com base no índice do array de cores
+    int colorIndex = combo / 10;
+    Color defaultColor = comboColors[Mathf.Clamp(colorIndex, 0, comboColors.Length - 1)];
+    
+    // Muda a cor do visualizador com base no combo
+    float normalizedCombo = (float)combo / 100f;
+    Color lerpedColor = Color.Lerp(defaultColor, Color.red, normalizedCombo);
+    comboVisualizer.GetComponent<Image>().color = lerpedColor;
+}
+
 
     private void AnimateComboVisualizer()
     {
         if (combo % 10 == 0) // Animação a cada 10 combos
         {
-            comboVisualizer.transform.DOScale(1.5f, 0.2f).OnComplete(() => comboVisualizer.transform.DOScale(1f, 0.2f));
+            // Adiciona uma animação de pulsação para tornar a animação mais dinâmica
+            comboTween = comboVisualizer.transform.DOPunchScale(new Vector3(0.4f, 0.4f, 0), 0.5f, 10, 1).SetLoops(-1, LoopType.Yoyo);
         }
     }
 }
