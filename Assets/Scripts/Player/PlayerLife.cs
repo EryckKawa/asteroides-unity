@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
@@ -6,59 +7,25 @@ public class PlayerLife : MonoBehaviour
 {
     [SerializeField] private int life;
     [SerializeField] private float repulsionForce = 10f; // A força de repulsão quando o jogador colide com um meteoro
-    [SerializeField] private float damageFlashDuration = 0.1f; // Duração do efeito de flash de dano
-    [SerializeField] private Color damageColor = Color.red; // Cor do efeito de dano
-    [SerializeField] private GameObject playerVisual; // Referência ao objeto filho que contém o SpriteRenderer
-    [SerializeField] private float scaleUpFactor = 1.2f; // Fator de aumento de escala ao tomar dano
-    [SerializeField] private float scaleUpDuration = 0.1f; // Duração da animação de aumento de escala
+    [SerializeField] private GameObject gameOverScreen; // Referência ao objeto gameOverScreen no Canvas
+    private SpriteRenderer playerVisual;
 
-    private Color originalColor;
-    private Vector3 originalScale;
-    private SpriteRenderer spriteRenderer;
+    private void Start()
+    {
+        // Inicializa a referência ao SpriteRenderer do playerVisual
+        playerVisual = transform.Find("PlayerVisual").GetComponent<SpriteRenderer>();
+    }
 
     public int Life
     {
         get { return life; }
         private set { life = value; }
     }
-
-    private void Start()
-    {
-        if (playerVisual != null)
-        {
-            spriteRenderer = playerVisual.GetComponent<SpriteRenderer>();
-            if (spriteRenderer != null)
-            {
-                originalColor = spriteRenderer.color;
-                originalScale = playerVisual.transform.localScale;
-            }
-            else
-            {
-                Debug.LogError("SpriteRenderer não encontrado no objeto playerVisual.");
-            }
-        }
-        else
-        {
-            Debug.LogError("PlayerVisual não está atribuído.");
-        }
-    }
-
+    
     void OnCollisionEnter2D(Collision2D other)
     {
         life--;
         Debug.Log(life);
-
-        // Efeito de dano visual
-        if (spriteRenderer != null)
-        {
-            // Muda a cor de forma instantânea
-            spriteRenderer.color = damageColor;
-            DOTween.Sequence()
-                .Append(playerVisual.transform.DOScale(originalScale * scaleUpFactor, scaleUpDuration))
-                .Append(playerVisual.transform.DOScale(originalScale, scaleUpDuration))
-                .Append(spriteRenderer.DOColor(originalColor, damageFlashDuration))
-                .Play();
-        }
 
         // Verifica se o outro objeto tem um Rigidbody2D
         Rigidbody2D otherRb = other.gameObject.GetComponent<Rigidbody2D>();
@@ -72,7 +39,32 @@ public class PlayerLife : MonoBehaviour
             otherRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Impulse);
         }
 
-        // Atualiza a UI da vida do jogador
-        FindObjectOfType<PlayerHealth>().UpdateHealthUI(life);
+        // Animação de dano
+        AnimateDamage();
+
+        // Verifica se a vida é 0 ou menor
+        if (life <= 0)
+        {
+            ShowGameOverScreen();
+        }
+    }
+
+    void AnimateDamage()
+    {
+        // Animação de cor e escala para indicar dano
+        playerVisual.DOColor(Color.red, 0.1f).OnComplete(() =>
+        {
+            playerVisual.DOColor(Color.white, 0.1f);
+        });
+        playerVisual.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0), 0.3f, 10, 1);
+    }
+
+    void ShowGameOverScreen()
+    {
+        // Mostra a tela de Game Over
+        gameOverScreen.SetActive(true);
+
+        // Pausa o jogo
+        Time.timeScale = 0f;
     }
 }
