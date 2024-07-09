@@ -9,11 +9,15 @@ public class PlayerLife : MonoBehaviour
     [SerializeField] private float repulsionForce = 10f; // A força de repulsão quando o jogador colide com um meteoro
     [SerializeField] private GameObject gameOverScreen; // Referência ao objeto gameOverScreen no Canvas
     private SpriteRenderer playerVisual;
+    private PlayerHealth playerHealth;
 
     private void Start()
     {
         // Inicializa a referência ao SpriteRenderer do playerVisual
         playerVisual = transform.Find("PlayerVisual").GetComponent<SpriteRenderer>();
+
+        // Encontra o componente PlayerHealth no mesmo GameObject ou em um GameObject associado
+        playerHealth = GetComponent<PlayerHealth>();
     }
 
     public int Life
@@ -21,7 +25,7 @@ public class PlayerLife : MonoBehaviour
         get { return life; }
         private set { life = value; }
     }
-    
+
     void OnCollisionEnter2D(Collision2D other)
     {
         life--;
@@ -41,6 +45,9 @@ public class PlayerLife : MonoBehaviour
 
         // Animação de dano
         AnimateDamage();
+
+        // Atualiza a UI de vida
+        playerHealth.UpdateHealthUI(life);
 
         // Verifica se a vida é 0 ou menor
         if (life <= 0)
@@ -66,5 +73,9 @@ public class PlayerLife : MonoBehaviour
 
         // Pausa o jogo
         Time.timeScale = 0f;
+
+        // Para a música
+        FindObjectOfType<AudioManager>().StopMusic();
     }
+
 }

@@ -9,14 +9,18 @@ public class Asteroids : MonoBehaviour
     [SerializeField] private ParticleSystem destructionParticle; // Sistema de partículas para destruição
     [SerializeField] private ParticleSystem asteroidsParticle; // Sistema de partículas do asteroide
     [SerializeField] private GameObject scoreTextPrefab; // Prefab para o texto de pontuação
+    [SerializeField] private AudioClip explosionSound; // Som de explosão
+    [SerializeField] private AudioClip hitSound; // Som de impacto
     private SpriteRenderer spriteRenderer;
     private CircleCollider2D circleCollider;
+    private AudioSource audioSource;
 
     private void Start()
     {
-        // Inicializa o SpriteRenderer e o CircleCollider2D
+        // Inicializa o SpriteRenderer, o CircleCollider2D e o AudioSource
         spriteRenderer = GetComponent<SpriteRenderer>();
         circleCollider = GetComponent<CircleCollider2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -24,6 +28,12 @@ public class Asteroids : MonoBehaviour
         health--;
         Debug.Log("Asteroid hit. Health: " + health);
         Destroy(other.gameObject);
+
+        // Toca o som de impacto
+        if (hitSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(hitSound);
+        }
 
         BaseProjectile projectile = other.GetComponent<BaseProjectile>();
         if (projectile != null)
@@ -78,6 +88,12 @@ public class Asteroids : MonoBehaviour
 
     private IEnumerator DisableAndDestroy(float delay)
     {
+        // Toca o som de explosão
+        if (explosionSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(explosionSound);
+        }
+
         // Desativa o SpriteRenderer, o CircleCollider2D e os sistemas de partículas
         spriteRenderer.enabled = false;
         circleCollider.enabled = false;

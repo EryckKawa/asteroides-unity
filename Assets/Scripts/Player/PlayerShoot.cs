@@ -8,10 +8,17 @@ public class PlayerShoot : MonoBehaviour
     [SerializeField] private float projectileSpeed = 20f;
     [SerializeField] private float shootCooldown = 0.5f; // Tempo mínimo entre os disparos
     [SerializeField] private float scaleIncrease = 5f; // Fator de aumento de escala dos projéteis
+    [SerializeField] private AudioClip shootSound; // Som de disparo
 
     private float shootTimer; // Timer para controlar o tempo entre os disparos
     private bool doubleShot = false; // Adicionado para o power-up de tiro duplo
     private bool isActiveIncreaseProjectile = false; // Flag para rastrear se o aumento de projétil está ativo
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
@@ -28,6 +35,12 @@ public class PlayerShoot : MonoBehaviour
 
     private void Shoot()
     {
+        // Toca o som de disparo
+        if (shootSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(shootSound);
+        }
+
         // Se doubleShot é verdadeiro, cria um segundo projétil
         if (doubleShot)
         {
