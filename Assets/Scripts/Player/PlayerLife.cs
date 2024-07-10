@@ -8,6 +8,8 @@ public class PlayerLife : MonoBehaviour
     [SerializeField] private int life;
     [SerializeField] private float repulsionForce = 10f; // A força de repulsão quando o jogador colide com um meteoro
     [SerializeField] private GameObject gameOverScreen; // Referência ao objeto gameOverScreen no Canvas
+    [SerializeField] private AudioSource collisionSound; // Referência ao AudioSource para o som de colisão
+    [SerializeField] private AudioSource gameOverMusic; // Referência ao AudioSource para a música do game over
     private SpriteRenderer playerVisual;
     private PlayerHealth playerHealth;
 
@@ -28,6 +30,11 @@ public class PlayerLife : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D other)
     {
+        if (other.gameObject.CompareTag("Asteroid"))
+        {
+            collisionSound.Play();
+        }
+
         life--;
         Debug.Log(life);
 
@@ -76,6 +83,8 @@ public class PlayerLife : MonoBehaviour
 
         // Para a música
         FindObjectOfType<AudioManager>().StopMusic();
-    }
 
+        // Inicia a música do game over
+        gameOverMusic.Play();
+    }
 }

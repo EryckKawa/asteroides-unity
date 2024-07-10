@@ -15,7 +15,7 @@ public class ScoreManager : MonoBehaviour
 
     private int score;
     private int combo;
-    private float comboResetTime = 5f; // Tempo em segundos para resetar o combo
+    private float comboResetTime = 7f; // Tempo em segundos para resetar o combo
     private float comboTimer;
     private int multiplier = 1;
     private Tween comboTween;
@@ -78,14 +78,15 @@ public class ScoreManager : MonoBehaviour
         if (comboTween != null)
         {
             comboTween.Kill(); // Para a animação quando o combo é resetado
-            comboVisualizer.transform.localScale = new Vector3(10, 6, 0); // Reseta a escala do visualizador de combo
+            comboVisualizer.transform.localScale = new Vector3(10, 6, 1); // Reseta a escala do visualizador de combo
         }
+        comboVisualizer.GetComponent<Image>().color = Color.white; // Reseta a cor do visualizador de combo
     }
 
     private void UpdateScoreUI()
     {
-        // Formata o score com quatro dígitos, preenchendo com zeros à esquerda
-        scoreText.text = "HIGHSCORE " + score.ToString("D8");
+        // Formata o score com oito dígitos, preenchendo com zeros à esquerda
+        scoreText.text = "SCORE    " + score.ToString("D8");
         finalScoreText.text = "Final Score " + score.ToString("D8");
     }
 

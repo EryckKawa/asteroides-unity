@@ -8,6 +8,7 @@ public class BounceLimits : MonoBehaviour
     [SerializeField] private float bounceForce = 10f; // Força do bounce
     [SerializeField] private float xLimit = 9f; // Limite da borda no eixo X
     [SerializeField] private float yLimit = 5f; // Limite da borda no eixo Y
+    [SerializeField] private AudioSource bounceSound; // Referência ao AudioSource
 
     void Start()
     {
@@ -40,5 +41,6 @@ public class BounceLimits : MonoBehaviour
     void Bounce(Vector2 direction)
     {
         rb.AddForce(-direction * bounceForce, ForceMode2D.Impulse);
+        bounceSound.Play(); // Toca o som
     }
 }

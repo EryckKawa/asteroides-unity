@@ -6,7 +6,7 @@ public class TextChanger : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textComponent;
     [SerializeField] private string[] phrases;
-    [SerializeField] private float interval = 3f;
+    [SerializeField] private float interval = 5f;
 
     private void Start()
     {
