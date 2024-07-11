@@ -4,31 +4,82 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private AudioSource audioSource; // Referência ao componente AudioSource
-    [SerializeField] private string nextSceneName = "Asteroids"; // Nome da próxima cena
+	[SerializeField] private AudioSource audioSource;
+	[SerializeField] private string nextSceneName = "Asteroids";
+	[SerializeField] private GameObject gameOverScreen;
+	[SerializeField] private AudioSource gameOverMusic;
 
-    public void StartGame()
-    {
-        StartCoroutine(PlaySoundAndLoadScene());
-    }
+	private float musicTime;
+	private AudioManager audioManager;
 
-    private IEnumerator PlaySoundAndLoadScene()
-    {
-        audioSource.Play();
-        yield return new WaitForSecondsRealtime(audioSource.clip.length); // Usar WaitForSecondsRealtime para ignorar Time.timeScale
-        SceneManager.LoadScene(nextSceneName);
-    }
+	private void Start()
+	{
+		audioManager = FindObjectOfType<AudioManager>();
+	}
 
-    public void RestartGame()
-    {
-        StartCoroutine(PlaySoundAndRestartScene());
-    }
-    
-    private IEnumerator PlaySoundAndRestartScene()
-    {
-        Time.timeScale = 1.0f; // Definir Time.timeScale para 1 antes de esperar
-        audioSource.Play();
-        yield return new WaitForSecondsRealtime(audioSource.clip.length); // Usar WaitForSecondsRealtime para ignorar Time.timeScale
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+	public void StartGame()
+	{
+		StartCoroutine(PlaySoundAndLoadScene());
+	}
+
+	private IEnumerator PlaySoundAndLoadScene()
+	{
+		audioSource.Play();
+		yield return new WaitForSecondsRealtime(audioSource.clip.length);
+		SceneManager.LoadScene(nextSceneName);
+	}
+
+	public void RestartGame()
+	{
+		StartCoroutine(PlaySoundAndRestartScene());
+	}
+
+	private IEnumerator PlaySoundAndRestartScene()
+	{
+		Time.timeScale = 1.0f;
+		audioSource.Play();
+		yield return new WaitForSecondsRealtime(audioSource.clip.length);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+
+	public void ContinueGame()
+	{
+		SaveGameState();
+		gameOverScreen.SetActive(false);
+		gameOverMusic.Stop();
+
+		StartCoroutine(ResumeGame());
+	}
+
+	private IEnumerator ResumeGame()
+	{
+		Time.timeScale = 1.0f;
+		yield return new WaitForSecondsRealtime(1f);
+		RestoreGameState();
+	}
+
+	private void SaveGameState()
+	{
+		musicTime = audioSource.time;
+	}
+
+	private void RestoreGameState()
+	{
+		audioSource.time = musicTime;
+		audioSource.Play();
+		audioManager.RestartMusic();
+		PlayerLife playerLife = FindObjectOfType<PlayerLife>();
+		if (playerLife != null)
+		{
+			playerLife.ResetLife(3);
+		}
+	}
+
+	public void TriggerGameOver()
+	{
+		gameOverScreen.SetActive(true);
+		Time.timeScale = 0f;
+		audioManager.StopMusic();
+		gameOverMusic.Play();
+	}
 }

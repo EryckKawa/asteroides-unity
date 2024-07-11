@@ -6,20 +6,18 @@ using DG.Tweening;
 public class PlayerLife : MonoBehaviour
 {
     [SerializeField] private int life;
-    [SerializeField] private float repulsionForce = 10f; // A força de repulsão quando o jogador colide com um meteoro
-    [SerializeField] private GameObject gameOverScreen; // Referência ao objeto gameOverScreen no Canvas
-    [SerializeField] private AudioSource collisionSound; // Referência ao AudioSource para o som de colisão
-    [SerializeField] private AudioSource gameOverMusic; // Referência ao AudioSource para a música do game over
+    [SerializeField] private float repulsionForce = 10f;
+    [SerializeField] private AudioSource collisionSound;
     private SpriteRenderer playerVisual;
     private PlayerHealth playerHealth;
+    private GameManager gameManager;
 
     private void Start()
     {
-        // Inicializa a referência ao SpriteRenderer do playerVisual
         playerVisual = transform.Find("PlayerVisual").GetComponent<SpriteRenderer>();
-
-        // Encontra o componente PlayerHealth no mesmo GameObject ou em um GameObject associado
         playerHealth = GetComponent<PlayerHealth>();
+        gameManager = FindObjectOfType<GameManager>();
+        life = 3;
     }
 
     public int Life
@@ -38,34 +36,25 @@ public class PlayerLife : MonoBehaviour
         life--;
         Debug.Log(life);
 
-        // Verifica se o outro objeto tem um Rigidbody2D
         Rigidbody2D otherRb = other.gameObject.GetComponent<Rigidbody2D>();
         if (otherRb != null)
         {
-            // Calcula a direção da força de repulsão
             Vector2 repulsionDirection = (other.transform.position - transform.position).normalized;
-
-            // Aplica a força de repulsão ao jogador e ao meteoro
             GetComponent<Rigidbody2D>().AddForce(-repulsionDirection * repulsionForce, ForceMode2D.Impulse);
             otherRb.AddForce(repulsionDirection * repulsionForce, ForceMode2D.Impulse);
         }
 
-        // Animação de dano
         AnimateDamage();
-
-        // Atualiza a UI de vida
         playerHealth.UpdateHealthUI(life);
 
-        // Verifica se a vida é 0 ou menor
         if (life <= 0)
         {
-            ShowGameOverScreen();
+            gameManager.TriggerGameOver();
         }
     }
 
     void AnimateDamage()
     {
-        // Animação de cor e escala para indicar dano
         playerVisual.DOColor(Color.red, 0.1f).OnComplete(() =>
         {
             playerVisual.DOColor(Color.white, 0.1f);
@@ -73,18 +62,9 @@ public class PlayerLife : MonoBehaviour
         playerVisual.transform.DOPunchScale(new Vector3(0.2f, 0.2f, 0), 0.3f, 10, 1);
     }
 
-    void ShowGameOverScreen()
+    public void ResetLife(int newLife)
     {
-        // Mostra a tela de Game Over
-        gameOverScreen.SetActive(true);
-
-        // Pausa o jogo
-        Time.timeScale = 0f;
-
-        // Para a música
-        FindObjectOfType<AudioManager>().StopMusic();
-
-        // Inicia a música do game over
-        gameOverMusic.Play();
+        life = newLife;
+        playerHealth.UpdateHealthUI(life);
     }
 }

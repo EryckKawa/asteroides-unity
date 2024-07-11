@@ -4,25 +4,22 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public List<AudioClip> audioClips; // Adicione seus sons aqui no Inspector da Unity
+    public List<AudioClip> audioClips;
     private AudioSource audioSource1;
     private AudioSource audioSource2;
     private int currentClipIndex = 0;
-    public float crossFadeTime = 3.0f; // Tempo de transição entre as músicas
-    public float targetVolume = 0.3f; // Volume desejado para as músicas
+    public float crossFadeTime = 3.0f;
+    public float targetVolume = 0.3f;
 
     void Start()
     {
-        // Cria dois AudioSources para a transição
         audioSource1 = gameObject.AddComponent<AudioSource>();
         audioSource2 = gameObject.AddComponent<AudioSource>();
 
-        // Embaralha a lista de clipes de áudio
         Shuffle(audioClips);
 
-        // Toca a primeira música
         audioSource1.clip = audioClips[currentClipIndex];
-        audioSource1.volume = targetVolume; // Define o volume inicial
+        audioSource1.volume = targetVolume;
         audioSource1.Play();
         StartCoroutine(CrossFadeMusic());
     }
@@ -31,18 +28,14 @@ public class AudioManager : MonoBehaviour
     {
         while (true)
         {
-            // Espera a música terminar
             yield return new WaitForSeconds(audioSource1.clip.length - crossFadeTime);
 
-            // Incrementa o índice e retorna ao primeiro se tiver passado do último
             currentClipIndex = (currentClipIndex + 1) % audioClips.Count;
 
-            // Configura a próxima música no segundo AudioSource e toca
             audioSource2.clip = audioClips[currentClipIndex];
-            audioSource2.volume = 0; // Começa com volume zero para crossfade
+            audioSource2.volume = 0;
             audioSource2.Play();
 
-            // Transição suave do volume
             float startTime = Time.time;
             while (Time.time < startTime + crossFadeTime)
             {
@@ -52,7 +45,6 @@ public class AudioManager : MonoBehaviour
                 yield return null;
             }
 
-            // Troca os AudioSources para a próxima transição
             AudioSource temp = audioSource1;
             audioSource1 = audioSource2;
             audioSource2 = temp;
@@ -63,6 +55,18 @@ public class AudioManager : MonoBehaviour
     {
         audioSource1.Stop();
         audioSource2.Stop();
+    }
+
+    public void RestartMusic()
+    {
+        if (audioSource1.clip != null && !audioSource1.isPlaying)
+        {
+            audioSource1.Play();
+        }
+        if (audioSource2.clip != null && !audioSource2.isPlaying)
+        {
+            audioSource2.Play();
+        }
     }
 
     void Shuffle(List<AudioClip> list)

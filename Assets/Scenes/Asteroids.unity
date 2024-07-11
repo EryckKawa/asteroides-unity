@@ -422,7 +422,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 174, y: -226}
+  m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 325, y: 129}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &143701177
@@ -989,17 +989,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 478878309}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 0.010416667, y: 0.010416667, z: 0.010416667}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 952404332}
-  m_Father: {fileID: 1870697101}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -164, y: -226}
+  m_AnchoredPosition: {x: 15375, y: 21187.5}
   m_SizeDelta: {x: 325, y: 129}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &478878311
@@ -1045,7 +1045,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 478878312}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 866154631}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: ContinueGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &478878312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1094,8 +1106,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: ff041a995df3dcf4682d3044b8d41281, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -2472,67 +2484,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 133.99998}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &1356492804
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2820581791176428463, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3.7099211
-      objectReference: {fileID: 0}
-    - target: {fileID: 2820581791176428463, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.017942637
-      objectReference: {fileID: 0}
-    - target: {fileID: 2820581791176428463, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2820581791176428463, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2820581791176428463, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2820581791176428463, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2820581791176428463, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2820581791176428463, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2820581791176428463, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2820581791176428463, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6170696617435035866, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: m_Name
-      value: Big Projectille
-      objectReference: {fileID: 0}
-    - target: {fileID: 8758931202773074434, guid: 53c9d803dda974944835ac0527d79350, type: 3}
-      propertyPath: player
-      value: 
-      objectReference: {fileID: 402031944}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 53c9d803dda974944835ac0527d79350, type: 3}
 --- !u!1 &1376606506
 GameObject:
   m_ObjectHideFlags: 0
@@ -2938,6 +2889,14 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 143701180}
+    - target: {fileID: 9104766301043429698, guid: 7f0db834a016d7f4a8b702bd273159c3, type: 3}
+      propertyPath: gameOverMusic
+      value: 
+      objectReference: {fileID: 2093956026}
+    - target: {fileID: 9104766301043429698, guid: 7f0db834a016d7f4a8b702bd273159c3, type: 3}
+      propertyPath: gameOverScreen
+      value: 
+      objectReference: {fileID: 1870697100}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3124,7 +3083,6 @@ RectTransform:
   - {fileID: 1697109917}
   - {fileID: 2033347562}
   - {fileID: 1253497865}
-  - {fileID: 478878310}
   - {fileID: 143701176}
   m_Father: {fileID: 564894249}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4020,7 +3978,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8593070006520287726, guid: 4b2074e0213e7c5418347cd31598f65e, type: 3}
       propertyPath: spawnRateDecrease
-      value: 0.15
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 8666181865392822173, guid: 4b2074e0213e7c5418347cd31598f65e, type: 3}
       propertyPath: m_Name
@@ -4136,10 +4094,10 @@ SceneRoots:
   - {fileID: 6996436856082122920}
   - {fileID: 2007624996}
   - {fileID: 7349346058193158942}
-  - {fileID: 1356492804}
   - {fileID: 1402238250}
   - {fileID: 1108752981}
   - {fileID: 1700479424914226566}
   - {fileID: 1456133879}
   - {fileID: 2057410748}
   - {fileID: 1036084116}
+  - {fileID: 478878310}
