@@ -5,7 +5,8 @@ using TMPro;
 public class TextChanger : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI textComponent;
-    [SerializeField] private string[] phrases;
+    [SerializeField] private string[] desktopPhrases;
+    [SerializeField] private string[] mobilePhrases;
     [SerializeField] private float interval = 5f;
 
     private void Start()
@@ -15,10 +16,13 @@ public class TextChanger : MonoBehaviour
             textComponent = GetComponent<TextMeshProUGUI>();
         }
 
-        StartCoroutine(ChangeTextRoutine());
+        // Seleciona as frases baseadas na plataforma
+        string[] phrases = Application.isMobilePlatform ? mobilePhrases : desktopPhrases;
+
+        StartCoroutine(ChangeTextRoutine(phrases));
     }
 
-    private IEnumerator ChangeTextRoutine()
+    private IEnumerator ChangeTextRoutine(string[] phrases)
     {
         for (int i = 0; i < phrases.Length; i++)
         {

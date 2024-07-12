@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -14,19 +15,35 @@ public class PlayerShoot : MonoBehaviour
     private bool doubleShot = false; // Adicionado para o power-up de tiro duplo
     private bool isActiveIncreaseProjectile = false; // Flag para rastrear se o aumento de projétil está ativo
     private AudioSource audioSource;
+    private PlayerInputActions inputActions;
 
-    private void Start()
+    private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
+        inputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        inputActions.Player.Enable();
+        inputActions.Player.Fire.performed += OnFire;
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Player.Fire.performed -= OnFire;
+        inputActions.Player.Disable();
     }
 
     private void Update()
     {
         // Atualiza o timer
         shootTimer += Time.deltaTime;
+    }
 
-        // Verifica se o jogador pode disparar novamente
-        if (Input.GetMouseButtonDown(0) && shootTimer >= shootCooldown)
+    private void OnFire(InputAction.CallbackContext context)
+    {
+        if (shootTimer >= shootCooldown)
         {
             Shoot();
             shootTimer = 0f; // Reseta o timer após o disparo
@@ -88,7 +105,7 @@ public class PlayerShoot : MonoBehaviour
         yield return new WaitForSeconds(duration);
         doubleShot = false;
     }
-    
+
     public void ActiveIncreaseProjectile(float duration)
     {
         if (!isActiveIncreaseProjectile)
@@ -103,7 +120,7 @@ public class PlayerShoot : MonoBehaviour
             StartCoroutine(IncreaseProjectileRoutine(duration));
         }
     }
-    
+
     private IEnumerator IncreaseProjectileRoutine(float duration)
     {
         // Aumenta o tamanho dos projéteis durante a duração especificada
@@ -112,7 +129,7 @@ public class PlayerShoot : MonoBehaviour
         // Restaura o tamanho original dos projéteis
         isActiveIncreaseProjectile = false; // Desativa o aumento de projétil
     }
-    
+
     public bool GetActiveIncreaseProjectile()
     {
         return isActiveIncreaseProjectile;
