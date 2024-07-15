@@ -4319,11 +4319,11 @@ PrefabInstance:
       objectReference: {fileID: 402031944}
     - target: {fileID: 8593070006520287726, guid: 4b2074e0213e7c5418347cd31598f65e, type: 3}
       propertyPath: spawnRateStart
-      value: 3
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 8593070006520287726, guid: 4b2074e0213e7c5418347cd31598f65e, type: 3}
       propertyPath: spawnRateDecrease
-      value: 0.08
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 8666181865392822173, guid: 4b2074e0213e7c5418347cd31598f65e, type: 3}
       propertyPath: m_Name

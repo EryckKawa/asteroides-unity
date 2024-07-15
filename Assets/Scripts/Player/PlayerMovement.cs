@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isThrusting;
     private bool isBraking;
     private Vector2 gamepadDirection;
+    private Vector2 lastGamepadDirection;
 
     private void Awake()
     {
@@ -56,7 +57,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (gamepadDirection != Vector2.zero)
         {
+            lastGamepadDirection = gamepadDirection;
             PointTowardsGamePadLeftStick();
+        }
+        else if (lastGamepadDirection != Vector2.zero)
+        {
+            PointTowardsLastGamePadDirection();
         }
         else
         {
@@ -111,6 +117,16 @@ public class PlayerMovement : MonoBehaviour
     private void PointTowardsGamePadLeftStick()
     {
         float targetAngle = Mathf.Atan2(gamepadDirection.y, gamepadDirection.x) * Mathf.Rad2Deg - 90f;
+        float angle = Mathf.LerpAngle(transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
+
+        rb.freezeRotation = true;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        rb.freezeRotation = false;
+    }
+
+    private void PointTowardsLastGamePadDirection()
+    {
+        float targetAngle = Mathf.Atan2(lastGamepadDirection.y, lastGamepadDirection.x) * Mathf.Rad2Deg - 90f;
         float angle = Mathf.LerpAngle(transform.eulerAngles.z, targetAngle, rotationSpeed * Time.deltaTime);
 
         rb.freezeRotation = true;
